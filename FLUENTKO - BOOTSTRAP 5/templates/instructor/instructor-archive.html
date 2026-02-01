@@ -1,0 +1,35 @@
+{% extends 'base_instructor.html' %}
+
+{% block title %}Archived Classes - Fluentko{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="py-4">
+    <div class="container">
+        <h2 class="fw-bold mb-1">Archived Classes</h2>
+        <p class="text-muted">
+            View and restore previously archived classes.
+        </p>
+    </div>
+</section>
+
+{% if classes %}
+    {% for cls in classes %}
+    <a href="{{ url_for('instructor_class', class_code=cls.code) }}"
+       class="text-decoration-none text-light">
+
+        <div class="class-card-list instructor-class-card mx-2">
+            <div class="instructor">
+                {{ cls.instructor.name }}
+            </div>
+            <div class="class-title">{{ cls.name }}</div>
+            <div class="class-subtitle">{{ cls.subject }}</div>
+        </div>
+    </a>
+    {% endfor %}
+{% else %}
+    <p class="text-muted mx-2">No archived classes.</p>
+{% endif %}
+
+{% endblock %}

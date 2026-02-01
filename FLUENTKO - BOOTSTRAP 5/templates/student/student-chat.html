@@ -1,0 +1,361 @@
+{% extends 'base_student.html' %}
+
+{% block title %}{{ chat.title }}{% endblock %}
+
+{% block content %}
+
+<!-- Conversation Layout -->
+<section class="conversation-wrapper" id="conversationWrapper">
+    <!-- Top Controls -->
+    <div class="d-flex justify-content-between align-items-center px-3">
+        <button class="btn btn-light" onclick="goBackToPractice()">Back</button>
+        <button class="btn btn-light rounded-circle" style="width: 40px; height: 40px;"
+                data-bs-toggle="modal" data-bs-target="#bgSettingsModal">
+            <i class="bi bi-gear"></i>
+        </button>
+    </div>
+
+    <div class="conversation-container mx-5 d-flex align-items-stretch">
+
+        <!-- LEFT PANEL: VTuber Area -->
+        <div id="vtuber-container" class="vtuber-panel">
+            <canvas id="live2dCanvas"></canvas>
+        </div>
+
+
+        <!-- RIGHT PANEL: Chat Area -->
+        <div class="chat-panel">
+
+            <!-- Messages -->
+            <div class="chat-messages" id="chatMessages">
+                {% for msg in chat.messages|sort(attribute='created_on') %}
+                    <div class="chat-bubble {{ msg.sender }}">
+                        {{ msg.content }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <input type="text"
+                    id="chatInput"
+                    type="text"
+                    class="form-control chat-input"
+                    placeholder="Type your message...">
+
+                <button class="send-btn d-md-none" onclick="sendFromButton()">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+
+                <button class="mic-btn" data-bs-toggle="modal" data-bs-target="#micModal">
+                    <i class="bi bi-mic-fill"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Background Settings Modal -->
+<div class="modal fade" id="bgSettingsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4">
+
+            <div class="modal-header border-0 d-flex align-items-center">
+                <h5 class="modal-title fw-bold mb-0">Select Chat Background</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body px-4">
+                <div class="row g-3">
+                    <!-- Background Card 1 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'chat-bg1.png')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/chat-bg1.png') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Classroom 1</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 2 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'chat-bg2.png')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/chat-bg2.png') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Classroom 2</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 3 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'cafe_1.jpg')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/cafe_1.jpg') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Cafe 1</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 4 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'cafe_2.jpg')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/cafe_2.jpg') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Cafe 2</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 5 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'hospital_room_1.jpg')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/hospital_room_1.jpg') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Hospital Room 1</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 6 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'hospital_room_2.jpg')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/hospital_room_2.jpg') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Hospital Room 2</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 7 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'hotel_1.jpg')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/hotel_1.jpg') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Hotel 1</div>
+                        </div>
+                    </div>
+
+                    <!-- Background Card 8 -->
+                    <div class="col-6">
+                        <div class="bg-card" onclick="selectBackground(this, 'hotel_2.jpg')">
+                            <div class="bg-card-img" style="background-image: url('{{ url_for('static', filename='img/hotel_2.jpg') }}');"></div>
+                            <div class="mt-1 text-center fw-semibold">Hotel 2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0 px-4 pb-4 d-flex justify-content-between">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Back</button>
+                <button class="btn btn-success" onclick="applyBackground()">Done</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Audio Recording Modal -->
+<div class="modal fade" id="micModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4">
+
+            <h5 class="fw-bold mb-2">Voice Recording</h5>
+
+            <!-- STATUS -->
+            <p id="status" class="text-muted mb-3">Idle</p>
+
+            <!-- CIRCULAR RECORD BUTTON -->
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <button id="micBtn" class="record-btn">
+                    <i id="recordIcon" class="bi bi-mic-fill"></i>
+                </button>
+            </div>
+
+            <!-- SUBTITLE -->
+            <p id="recordHint" class="fw-semibold">
+                Tap to start recording
+            </p>
+
+            <button class="btn btn-secondary mt-3" data-bs-dismiss="modal">
+                Close
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedBackground = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedBg = "{{ chat.background if chat else 'chat-bg1.png' }}";
+
+        // Apply saved background
+        const wrapper = document.getElementById('conversationWrapper');
+        wrapper.style.backgroundImage = `url('/static/img/${savedBg}')`;
+
+        // Highlight selected card in modal
+        document.querySelectorAll('.bg-card').forEach(card => {
+            const bg = card.getAttribute('onclick');
+            if (bg && bg.includes(savedBg)) {
+                card.classList.add('selected');
+                selectedBackground = savedBg;
+            }
+        });
+    });
+
+    function selectBackground(card, filename) {
+        document.querySelectorAll('.bg-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedBackground = filename;
+    }
+
+    function applyBackground() {
+        if (!selectedBackground) return;
+
+        fetch(`/student/chat/{{ chat_id }}/set-background`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ background: selectedBackground })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('conversationWrapper').style.backgroundImage =
+                    `url('/static/img/${selectedBackground}')`;
+
+                // Close modal (Bootstrap 5 correct way)
+                const modalEl = document.getElementById('bgSettingsModal');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+            }
+        });
+    }
+
+    function goBackToPractice() {
+        window.location.href = "{{ url_for('student_practice') }}";
+    }
+
+
+    const input = document.getElementById("chatInput");
+    const chatMessages = document.getElementById("chatMessages");
+
+    input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && input.value.trim() !== "") {
+            sendMessage(input.value.trim());
+            input.value = "";
+        }
+    });
+
+    function sendMessage(text) {
+        // show user message immediately
+        appendMessage("user", text);
+
+        fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: text, 
+                chat_id: {{ chat.id }}
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            appendMessage("ai", data.reply);
+        })
+        .catch(err => {
+            console.error(err);
+            appendMessage("ai", "⚠️ AI error. Please try again.");
+        });
+    }
+
+
+    function appendMessage(sender, content) {
+        const bubble = document.createElement("div");
+        bubble.className = `chat-bubble ${sender}`;
+        bubble.innerText = content;
+        chatMessages.appendChild(bubble);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendFromButton() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    sendMessage(text);
+    input.value = "";
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const micBtn = document.getElementById("micBtn");
+        const statusText = document.getElementById("status"); // ✅ fixed ID
+        const recordHint = document.getElementById("recordHint");
+        const recordIcon = document.getElementById("recordIcon");
+        const modalEl = document.getElementById("micModal");
+
+        let recording = false;
+
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+            statusText.innerText = "Speech recognition not supported.";
+            micBtn.disabled = true;
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        micBtn.addEventListener("click", () => {
+            if (!recording) {
+                recognition.start();
+                recording = true;
+
+                statusText.innerText = "Listening...";
+                recordHint.innerText = "Tap to stop recording";
+                recordIcon.className = "bi bi-stop-fill";
+                micBtn.classList.add("recording");
+            } else {
+                recognition.stop();
+            }
+        });
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            sendMessageFromSpeech(transcript);
+        };
+
+        recognition.onend = () => {
+            recording = false;
+
+            statusText.innerText = "Idle";
+            recordHint.innerText = "Tap to start recording";
+            recordIcon.className = "bi bi-mic-fill";
+            micBtn.classList.remove("recording");
+
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        };
+
+        recognition.onerror = (e) => {
+            console.error("Speech error:", e.error);
+            recognition.stop();
+        };
+
+        function sendMessageFromSpeech(text) {
+            if (!text.trim()) return;
+
+            sendMessage(text);
+        }
+
+    });
+
+</script>
+
+    {% block scripts %}
+    <!-- PIXI (v7) -->
+    <script src="{{ url_for('static', filename='vtuber/pixi/pixi.min.js') }}"></script>
+    <!-- Live2D Cubism Core -->
+    <script src="{{ url_for('static', filename='vtuber/cubism/live2dcubismcore.min.js') }}"></script>
+    <!-- PIXI ↔ Live2D (Cubism 4) -->
+    <script src="{{ url_for('static', filename='vtuber/live2d/cubism4.min.js') }}"></script>
+    <!-- VTuber logic -->
+    <script src="{{ url_for('static', filename='vtuber/js/vtuber.js') }}"></script>
+    {% endblock %}
+
+
+{% endblock %}

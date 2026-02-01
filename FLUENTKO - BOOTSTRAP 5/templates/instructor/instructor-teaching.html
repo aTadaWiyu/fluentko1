@@ -1,0 +1,100 @@
+{% extends 'base_instructor.html' %}
+
+{% block title %}Teaching - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Page Header -->
+    <section class="py-4">
+        <div class="container">
+            <h2 class="fw-bold mb-1">Teaching</h2>
+            <p class="text-muted">
+                Manage your classes and track student learning progress.
+            </p>
+        </div>
+    </section>
+
+    <button class="btn btn-success mx-2 px-4 py-2"
+            data-bs-toggle="modal"
+            data-bs-target="#createClassModal">
+        Create Class
+    </button>
+
+    {% for cls in classes %}
+    <a href="{{ url_for('instructor_class', class_code=cls.code) }}"
+    class="text-decoration-none text-light">
+
+        <div class="class-card-list instructor-class-card mx-2">
+            <div class="instructor">
+            {{ cls.instructor.name if cls.instructor.name else "Unknown Instructor" }}
+            </div>
+            <div class="class-title">{{ cls.name }}</div>
+            <div class="class-subtitle">{{ cls.subject }}</div>
+        </div>
+
+    </a>
+    {% endfor %}
+
+
+
+    <!-- Create Class Modal -->
+    <div class="modal fade" id="createClassModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <form method="POST" action="{{ url_for('create_class') }}">
+                    <div class="modal-body px-4">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Class Name <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                class="form-control"
+                                name="name"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Section</label>
+                            <input type="text"
+                                class="form-control"
+                                name="section">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Room</label>
+                            <input type="text"
+                                class="form-control"
+                                name="room">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Subject</label>
+                            <input type="text"
+                                class="form-control"
+                                name="subject">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer border-0 d-flex justify-content-between px-4 pb-4">
+                        <button type="button"
+                                class="btn btn-outline-secondary col-3 rounded-pill"
+                                data-bs-dismiss="modal">
+                            Back
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-success col-3 rounded-pill">
+                            Create
+                        </button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

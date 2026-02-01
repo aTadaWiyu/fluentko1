@@ -1,0 +1,307 @@
+{% extends 'base_student.html' %}
+
+{% block title %}Home - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Dashboard Greeting -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center">
+
+                        <!-- Text -->
+                        <div class="col-md-8">
+                            <h2 class="fw-bold mb-2">
+                                Welcome back, {{ session.get('user', 'Student') }} 👋
+                            </h2>
+
+                            <p class="text-muted mb-4">
+                                Ready to continue your journey in learning Korean?
+                                Let's keep practicing and improving your skills, one lesson at a time!
+                            </p>
+
+                            <button class="btn btn-success px-4 py-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#joinClassModal">
+                                Join Class
+                            </button>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="col-md-4 text-center mt-4 mt-md-0">
+                            <img src="/static/img/dashboard.png" class="img-fluid dashboard-image">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enrolled Section -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h3>Enrolled</h3>
+                    <p class="text-muted">Your classes will appear here once you join one. Enter a class code to get started.</p>
+                    <div class="d-flex pb-3" style="max-width: 100%; overflow-x: auto; overflow-y: hidden;">
+                        <!-- Join Class Card -->
+                        <div class="card me-3 shadow-sm border-1 rounded-4" style="width: 250px; height: 350px; cursor: pointer; flex-shrink: 0;" data-bs-toggle="modal" data-bs-target="#joinClassModal">
+                            <div class="card-body text-center py-5">
+                                <i class="bi bi-plus-circle" style="font-size: 4rem; color: #6c757d;"></i>
+                                <h5 class="mt-3">Join Class</h5>
+                            </div>
+                        </div>
+                        <!-- Enrolled Class Cards would be dynamically added here -->
+                        <!-- Example Class Card Structure (for reference): -->
+                        {% for cls in classes %}
+                        <div class="card me-3 shadow-sm border-0 rounded-4"
+                            style="width: 250px; height: 350px; flex-shrink: 0; cursor:pointer;"
+                            onclick="location.href='{{ url_for('student_class', class_code=cls.code) }}'">
+
+                            <img src="{{ cls.image }}"
+                                class="card-img-top"
+                                style="height: 200px; object-fit: cover;">
+
+                            <div class="card-body">
+                                <p class="text-muted mb-1">{{ cls.instructor }}</p>
+                                <h6 class="fw-bold fs-5 mb-1">{{ cls.name }}</h6>
+                                <p class="mb-0">{{ cls.subject }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Active Courses -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h3>My Active Courses</h3>
+                    <p class="text-muted">Here's what you're currently learning.</p>
+        
+                    <!-- Courses Grid -->
+                    <div class="row g-4 justify-content-center">
+
+                        <!-- Course Card 1 -->
+                        <div class="col-md-4 d-flex justify-content-center">
+                            <div class="card active-course-card border-3">
+                                <img src="/static/img/Lessons.png"
+                                    class="active-course-img"
+                                    alt="Course Image">
+
+                                <div class="card-body">
+                                    <h6>Lessons</h6>
+                                    <p>Contains structured learning materials such as vocabulary, grammar explanations, and guided content.</p>
+
+                                    <a href="{{ url_for('student_lessons') }}" class="btn btn-success w-100">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 2 -->
+                        <div class="col-md-4 d-flex justify-content-center">
+                            <div class="card active-course-card border-3">
+                                <img src="/static/img/Exercises.png"
+                                    class="active-course-img"
+                                    alt="Course Image">
+
+                                <div class="card-body">
+                                    <h6>Exercises</h6>
+                                    <p>Provides assessment activities to test understanding and measure learning progress.</p>
+
+                                    <a href="{{ url_for('student_exercises') }}" class="btn btn-success w-100">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 3 -->
+                        <div class="col-md-4 d-flex justify-content-center">
+                            <div class="card active-course-card border-3">
+                                <img src="/static/img/Practice.png"
+                                    class="active-course-img"
+                                    alt="Course Image">
+
+                                <div class="card-body">
+                                    <h6>Conversation Practice</h6>
+                                    <p>Offers interactive dialogue exercises designed to improve speaking and communication skills.</p>
+
+                                    <a href="{{ url_for('student_practice') }}" class="btn btn-success w-100">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Section -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h3>Category</h3>
+                    <p class="text-muted">Explore Korean by category or follow a guided learning path.</p>
+
+                </div>
+
+                <!-- Category Grid -->
+                <div class="row g-4 justify-content-center mx-5 mb-4">
+
+                    <!-- Card 1 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Basics & Foundations</h6>
+                            <p>Learn Hangul, pronunciation rules, essential words, and beginner phrases.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Grammar & Sentence Patterns</h6>
+                            <p>Master particles, conjugations, honorifics, and common sentence structures.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Daily Conversations</h6>
+                            <p>Practice real-life dialogues for greetings, shopping, dining, and social interactions.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Nursing & Healthcare Korean</h6>
+                            <p>Learn medical terms, patient communication, and clinical conversation phrases.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Listening & Speaking Practice</h6>
+                            <p>Improve pronunciation through speech recognition, TTS audio, and guided repetition.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Vocabulary Builder</h6>
+                            <p>Expand your word bank through themed sets: people, places, emotions, objects, and more.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 7 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Culture & Etiquette</h6>
+                            <p>Understand Korean customs, cultural behavior, and polite communication styles.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 8 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Quizzes & Progress Tasks</h6>
+                            <p>Test your skills with interactive quizzes, activities, and performance review.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Class Modal -->
+    <div class="modal fade" id="joinClassModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 py-2 my-1">
+
+            <form method="POST" action="{{ url_for('join_class') }}">
+
+                <!-- Header -->
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Join Class</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4">
+
+                    <p class="fw-semibold mb-2">You are currently signed in as</p>
+
+                    <!-- User Info -->
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="/static/img/profile.jpg"
+                            class="rounded-circle me-3"
+                            width="45" height="45">
+
+                        <div>
+                            <div class="fw-semibold">{{ session.get('user', 'User') }}</div>
+                            <div class="text-muted small">
+                                {{ session.get('email', 'user@email.com') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="fw-semibold">
+                        Ask your teacher for the class code, then enter it here.
+                    </p>
+
+                    <!-- Class Code Input -->
+                    <form method="POST" action="{{ url_for('join_class') }}">
+                        <input type="text"
+                            name="class_code"
+                            class="form-control mb-3"
+                            placeholder="Class code"
+                            maxlength="64"
+                            required>
+
+                        <p class="small text-muted mb-3">
+                            To join a class using an enrollment key:
+                        </p>
+
+                        <ul class="small text-muted">
+                            <li>Make sure you're logged in with a valid student account.</li>
+                            <li>Enter a class code made up of 6–8 letters or numbers, with no spaces or special characters.</li>
+                        </ul>
+
+                        <p class="small text-muted">
+                            If you're unable to join, please check our help section for assistance.
+                        </p>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 d-flex justify-content-between px-4">
+                        <button type="button"
+                                class="btn btn-outline-secondary rounded-pill"
+                                data-bs-dismiss="modal">
+                            Back
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-success rounded-pill">
+                            Join
+                        </button>
+                    </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

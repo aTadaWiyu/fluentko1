@@ -1,0 +1,99 @@
+{% extends 'base_instructor.html' %}
+
+{% block title %}Students - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Page Header -->
+    <section class="py-4">
+        <div class="container">
+            <h2 class="fw-bold mb-1">Student Directory</h2>
+            <p class="text-muted">
+                Manage and monitor student performance across the learning program.
+            </p>
+        </div>
+    </section>
+
+    <section class="pb-5">
+        <div class="container">
+            <div class="card rounded-4 shadow-sm border">
+
+                <div class="card-body p-4">
+
+                    <!-- Search Bar -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <input
+                            type="text"
+                            id="studentSearch"
+                            class="form-control w-50"
+                            placeholder="Search student name..."
+                            onkeyup="filterStudents()"
+                        >
+                    </div>
+
+                    <!-- Student Table -->
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>ID Number</th>
+                                    <th>Overall Score</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="studentTable">
+                                {% for student in students %}
+                                <tr>
+                                    <td class="fw-semibold">{{ student.name }}</td>
+                                    <td>{{ student.id }}</td>
+                                    <td>{{ student.score }}%</td>
+
+                                    <td>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar
+                                            {{ 'bg-success' if student.progress >= 80
+                                            else 'bg-warning' if student.progress >= 50
+                                            else 'bg-danger' }}"style="width: {{ student.progress }}%"></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        {% if student.status == "Excellent" %}
+                                            <span class="badge bg-primary">Excellent</span>
+                                        {% elif student.status == "Active" %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">Needs Attention</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{{ student.last_active }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    function filterStudents() {
+        const input = document.getElementById("studentSearch").value.toLowerCase();
+        const rows = document.querySelectorAll("#studentTable tr");
+
+        rows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            row.style.display = name.includes(input) ? "" : "none";
+        });
+    }
+    </script>
+
+{% endblock %}

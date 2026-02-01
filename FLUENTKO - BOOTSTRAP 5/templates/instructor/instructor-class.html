@@ -1,0 +1,753 @@
+{% extends 'base_instructor.html' %}
+
+{% block title %}Class - Fluentko{% endblock %}
+
+{% block content %}
+    <button class="btn btn-outline-success fw-semibold mx-2 mt-2 shadow-sm border"
+            onclick="history.back()">
+        <i class="bi bi-arrow-left"></i> Back
+    </button>
+
+        <!-- Classwork Content -->
+        <div id="classwork-content" class="tab-content">
+            <div class="class-card-list class-card-static mx-2">
+                <div class="instructor">{{ class_data.instructor }}</div>
+                <div class="class-title">{{ class_data.name }}</div>
+                <div class="class-subtitle">{{ class_data.subject }}</div>
+            </div>
+            
+                <div class="d-flex align-items-center justify-content-between mx-2 my-2">
+                    {% if not class_data.is_archived %}
+                    <!-- Left side: Create button -->
+                    <button class="btn btn-success px-4" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#createMaterialModal">
+                        <i class="bi bi-plus-circle me-2"></i> Create
+                    </button>
+
+                    <!-- Right side: 3 dots + Archive -->
+                    <div class="d-flex gap-2">
+                        <!-- Edit (3 dots) -->
+                        <button type="button" class="btn btn-sm btn-secondary" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editClassModal-{{ class_data.code }}">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+
+                        <!-- Archive -->
+                        <button type="button" class="btn btn-sm btn-danger" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#archiveClassModal-{{ class_data.code }}">
+                            <i class="bi bi-archive"></i>
+                        </button>
+                    </div>
+                    {% else %}
+                        <button class="btn btn-outline-success"
+                                data-bs-toggle="modal"
+                                data-bs-target="#restoreClassModal">
+                            Restore
+                        </button>
+
+                    {% endif %}
+                </div>
+
+
+            {% for lesson in lessons %}
+            <div class="lesson-card my-2 mx-2">
+                <div class="fw-semibold">
+                    <i class="bi bi-book me-2"></i>{{ lesson.title }}
+                </div>
+                <div class="text-muted small">Posted • {{ lesson.posted }}</div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- Scenarios Content -->
+        <div id="scenarios-content" class="tab-content" style="display: none;">
+            <div class="mx-2 mt-3">
+                <h5 class="fw-bold">Scenario Builder</h5>
+                <p class="text-muted">Create interactive language learning scenarios for your students.</p>
+                
+                <div class="my-2">
+                    <button class="btn btn-success px-4"
+                            data-bs-toggle="modal"
+                            data-bs-target="#createScenarioModal">
+                        <i class="bi bi-plus-circle me-2"></i> Create
+                    </button>
+                </div>
+
+                <div id="scenarioCardContainer">
+                    {% for scenario in scenarios %}
+                        <div class="scenario-card card border-0 shadow-sm mb-3"
+                            data-scenario-id="{{ scenario.id }}"
+                            onclick="openScenario('{{ scenario.type }}')">
+
+                        <div class="card-body scenario-card-body">
+                            <!-- DELETE ICON -->
+                            <button class="btn btn-sm btn-light position-absolute top-0 end-0 m-2"
+                                    onclick="event.stopPropagation(); openDeleteScenarioModal({{ scenario.id }})">
+                                <i class="bi bi-trash text-danger"></i>
+                            </button>
+
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-magic text-primary me-2 fs-5"></i>
+                                <h6 class="mb-0">{{ scenario.title }}</h6>
+                            </div>
+                            <p class="text-muted small mb-2">{{ scenario.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- People Content -->
+        <div id="people-content" class="tab-content" style="display: none;">
+            <div class="mx-3 mt-3">
+                <h5 class="fw-bold mb-3">Class Members</h5>
+                
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="text-muted mb-0">Teachers</h6>
+                    <i class="bi bi-person-plus fs-5 text-primary"
+                    role="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#inviteTeacherModal"></i>
+                </div>
+
+                {% for teacher in teachers %}
+                <div class="d-flex align-items-center mb-3">
+                    <img src="{{ teacher.avatar }}" class="rounded-circle me-3" width="40" height="40">
+                    <div>
+                        <div class="fw-semibold">{{ teacher.name }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="d-flex align-items-center justify-content-between mb-2 mt-3">
+                    <h6 class="text-muted mb-0">Students ({{ students|length }})</h6>
+                    <i class="bi bi-person-plus fs-5 text-primary"
+                    role="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#inviteStudentModal"></i>
+                </div>
+
+                {% for student in students %}
+                <div class="d-flex align-items-center mb-3">
+                    <!-- Avatar -->
+                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                        style="width: 40px; height: 40px; font-size: 14px; font-weight: bold;">
+                        {{ student.name[:2]|upper }}
+                    </div>
+                    <!-- Name & Status -->
+                    <div>
+                        <div class="fw-semibold">{{ student.name }}</div>
+                        <div class="text-muted small">{{ student.status }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a class="active" onclick="switchTab('classwork')">
+                <i class="bi bi-chat-left-text"></i>
+                <span>Classwork</span>
+            </a>
+            <a onclick="switchTab('scenarios')">
+                <i class="bi bi-journal-text"></i>
+                <span>Scenarios</span>
+            </a>
+            <a onclick="switchTab('people')">
+                <i class="bi bi-people"></i>
+                <span>People</span>
+            </a>
+        </nav>
+
+        <!-- Edit Class Modal -->
+        <div class="modal fade" id="editClassModal-{{ class_data.code }}" tabindex="-1" aria-labelledby="editClassModalLabel-{{ class_data.code }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4">
+                
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="editClassModalLabel-{{ class_data.code }}">Edit Class</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form method="POST" action="{{ url_for('update_class', class_code=class_data.code) }}">
+                    <div class="modal-body px-4">
+                    <!-- Editable fields -->
+                    <div class="mb-3">
+                        <label for="className-{{ class_data.code }}" class="form-label">Class Name</label>
+                        <input type="text" class="form-control" id="className-{{ class_data.code }}" name="name" value="{{ class_data.name }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="classSubject-{{ class_data.code }}" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="classSubject-{{ class_data.code }}" name="subject" value="{{ class_data.subject }}">
+                    </div>
+
+                    <!-- Non-editable class code -->
+                    <div class="mb-3">
+                        <label class="form-label">Class Code</label>
+                        <input type="text" class="form-control" value="{{ class_data.code }}" readonly>
+                    </div>
+                    </div>
+
+                    <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="submit" class="btn btn-primary">Done</button>
+                    </div>
+                </form>
+
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Archive Confirmation Modal -->
+        <div class="modal fade" id="archiveClassModal-{{ class_data.code }}" tabindex="-1" aria-labelledby="archiveClassModalLabel-{{ class_data.code }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content rounded-4">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-danger" id="archiveClassModalLabel-{{ class_data.code }}">Archive Class</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body px-4">
+                    Are you sure you want to archive <strong>{{ class_data.name }}</strong>?
+                    <p class="text-muted small">Students will no longer be able to access this class.</p>
+                </div>
+
+                <div class="modal-footer border-0 px-4 pb-4 d-flex justify-content-between">
+                    <button class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" action="{{ url_for('archive_class', class_code=class_data.code) }}">
+                    <button type="submit" class="btn btn-danger rounded-pill">Archive</button>
+                    </form>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+        
+    <!-- Restore Confirmation Modal -->
+    <div class="modal fade" id="restoreClassModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-body text-center p-4">
+                    <h5 class="fw-bold">Restore Class?</h5>
+                    <p class="text-muted">
+                        This class will return to your Teaching list.
+                    </p>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline-secondary rounded-pill px-4"
+                                data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <form method="POST"
+                            action="{{ url_for('restore_class', class_code=class_data.code) }}">
+                            <button class="btn btn-success rounded-pill px-4">
+                                Restore
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.bottom-nav a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show selected tab content and activate nav link
+            if (tabName === 'classwork') {
+                document.getElementById('classwork-content').style.display = 'block';
+                document.querySelector('.bottom-nav a:nth-child(1)').classList.add('active');
+            } else if (tabName === 'scenarios') {
+                document.getElementById('scenarios-content').style.display = 'block';
+                document.querySelector('.bottom-nav a:nth-child(2)').classList.add('active');
+            } else if (tabName === 'people') {
+                document.getElementById('people-content').style.display = 'block';
+                document.querySelector('.bottom-nav a:nth-child(3)').classList.add('active');
+            }
+        }
+
+        // Scenario card click handler
+        function openScenario(scenarioType) {
+            if (scenarioType === 'restaurant') {
+                alert('Opening Restaurant Scenario editor...');
+                // Here you would redirect to the scenario editor
+                // window.location.href = 'instructor-scenario-editor.html?type=restaurant';
+            } else if (scenarioType === 'bank') {
+                alert('Opening Bank Scenario editor...');
+                // Here you would redirect to the scenario editor
+                // window.location.href = 'instructor-scenario-editor.html?type=bank';
+            }
+        }
+
+        // Modal functions
+        function closeScenarioModal() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('createScenarioModal'));
+            modal.hide();
+        }
+
+        let selectedCharacter = null;
+
+        function selectCharacter(characterType) {
+            // Remove selected class from all character cards
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selected class to clicked card
+            const selectedCard = document.querySelector(`.character-card[data-character="${characterType}"]`);
+            selectedCard.classList.add('selected');
+
+            selectedCharacter = characterType;
+        }
+
+        function saveDraft() {
+            // Validate required fields
+            const title = document.getElementById('scenarioTitle').value;
+            const setting = document.getElementById('scenarioSetting').value;
+            const description = document.getElementById('scenarioDescription').value;
+            const objectives = document.getElementById('conversationObjectives').value;
+            const difficulty = document.getElementById('difficultyLevel').value;
+
+            if (!title || !description || !selectedInstructorCharacter) {
+                alert('Please fill in all required fields and select a character.');
+                return;
+            }
+
+
+            alert('Scenario saved as draft!');
+            closeScenarioModal();
+        }
+
+        function previewScenario() {
+            alert('Preview functionality coming soon!');
+        }
+
+        function generateScenario() {
+            const title = document.getElementById('scenarioTitle').value;
+            const setting = document.getElementById('scenarioSetting').value;
+            const description = document.getElementById('scenarioDescription').value;
+            const objectives = document.getElementById('conversationObjectives').value;
+            const difficulty = document.getElementById('difficultyLevel').value;
+
+            if (!title || !setting || !description || !objectives || !difficulty || !selectedInstructorCharacter) {
+                alert('Please fill in all required fields and select a character.');
+                return;
+            }
+
+            const classCode = "{{ class_data.code }}"; // Flask inject class code
+
+            fetch(`/instructor/class/${classCode}/create-scenario`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    type: selectedInstructorCharacter
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Add new scenario card dynamically
+                    const card = document.createElement('div');
+                    card.classList.add('scenario-card', 'card', 'border-0', 'shadow-sm', 'mb-3');
+                    card.setAttribute('onclick', `openScenario('${data.scenario.type}')`);
+                    card.innerHTML = `
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-magic text-primary me-2 fs-5"></i>
+                                <h6 class="mb-0">${data.scenario.title}</h6>
+                            </div>
+                            <p class="text-muted small mb-2">${data.scenario.description}</p>
+                        </div>
+                    `;
+
+                    const container = document.getElementById('scenarioCardContainer');
+                    
+                    container.appendChild(card);
+                    closeScenarioModal();
+
+                } 
+                // reset form
+                document.getElementById('scenarioTitle').value = '';
+                document.getElementById('scenarioDescription').value = '';
+                selectedInstructorCharacter = null;
+                document.querySelectorAll('.instructor-character-card')
+                    .forEach(c => c.classList.remove('selected'));
+            })
+            .catch(err => console.error(err));
+        }
+
+
+        // Initialize default tab on page load
+        switchTab('classwork');
+
+        let selectedInstructorCharacter = null;
+
+        function selectInstructorCharacter(card, character) {
+            // Remove selected state from all cards
+            document.querySelectorAll('.instructor-character-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+
+            // Add selected state to clicked card
+            card.classList.add('selected');
+
+            // Store selected value
+            selectedInstructorCharacter = character;
+        }
+
+        function copyClassCode() {
+            const input = document.getElementById("classCodeInput");
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+        }
+
+        let scenarioToDeleteId = null;
+
+function openDeleteScenarioModal(scenarioId) {
+    scenarioToDeleteId = scenarioId;
+    new bootstrap.Modal(
+        document.getElementById('deleteScenarioModal')
+    ).show();
+}
+
+    function confirmDeleteScenario() {
+        console.log("Confirm delete clicked:", scenarioToDeleteId);
+        if (!scenarioToDeleteId) return;
+
+        fetch(`/instructor/scenario/${scenarioToDeleteId}/delete`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message || 'Failed to delete scenario');
+                return;
+            }
+
+            // Remove card from UI
+            const card = document.querySelector(`[data-scenario-id="${scenarioToDeleteId}"]`);
+            if (card) card.remove();
+
+            scenarioToDeleteId = null;
+            bootstrap.Modal.getInstance(
+                document.getElementById('deleteScenarioModal')
+            ).hide();
+        })
+        .catch(err => console.error(err));
+    }
+
+
+    </script>
+
+    <!-- Create Scenario Modal -->
+    <div class="modal fade" id="createScenarioModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4">
+
+                <!-- Header -->
+                <div class="modal-header border-0 d-flex align-items-center">
+                    <h5 class="modal-title fw-bold mb-0">Generate AI Scenario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4">
+
+                    <!-- Scenario Title -->
+                    <div class="mb-3">
+                        <label for="scenarioTitle" class="form-label fw-semibold">Scenario Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="scenarioTitle" placeholder="e.g. Patient with fever, Nurse taking vital signs" required>
+                    </div>
+
+                    <!-- Setting -->
+                    <div class="mb-3">
+                        <label for="scenarioSetting" class="form-label fw-semibold">Setting <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="scenarioSetting" placeholder="e.g. Hospital, Restaurant, Bank" required>
+                    </div>
+
+                    <!-- Scenario Description -->
+                    <div class="mb-3">
+                        <label for="scenarioDescription" class="form-label fw-semibold">Scenario Description <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="scenarioDescription" rows="3" placeholder="Describe what is happening in the scenario. Example: Patient visits the clinic complaining of fever, chills, and mild headache for 2 days." required></textarea>
+                    </div>
+
+                    <!-- Conversation Objectives -->
+                    <div class="mb-3">
+                        <label for="conversationObjectives" class="form-label fw-semibold">Conversation Objectives <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="conversationObjectives" rows="2" placeholder="What should students practice? Example: Asking about symptoms, using profile forms, expressing pain levels, hospital vocabulary." required></textarea>
+                    </div>
+
+                    <!-- Difficulty Level -->
+                    <div class="mb-3">
+                        <label for="difficultyLevel" class="form-label fw-semibold">Difficulty Level <span class="text-danger">*</span></label>
+                        <select class="form-select" id="difficultyLevel" required>
+                            <option value="">Select difficulty level</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <!-- Character Selection -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Character <span class="text-danger">*</span></label>
+                        <p class="text-muted small mb-2">Select a character for this scenario</p>
+
+                        <div class="instructor-character-selection">
+
+                            <div class="instructor-character-card"
+                                data-character="poly"
+                                onclick="selectInstructorCharacter(this, 'poly')">
+                                <img src="/static/img/Poly.jpg" alt="Poly">
+                                <div class="info">
+                                    <div class="name">Poly</div>
+                                    <div class="desc">Warm big-sister guide</div>
+                                </div>
+                            </div>
+
+                            <div class="instructor-character-card"
+                                data-character="nabi"
+                                onclick="selectInstructorCharacter(this, 'nabi')">
+                                <img src="/static/img/Nabi.jpg" alt="Nabi">
+                                <div class="info">
+                                    <div class="name">Nabi</div>
+                                    <div class="desc">Simple & gentle practice</div>
+                                </div>
+                            </div>
+
+                            <div class="instructor-character-card"
+                                data-character="min"
+                                onclick="selectInstructorCharacter(this, 'min')">
+                                <img src="/static/img/character3.png" alt="Min">
+                                <div class="info">
+                                    <div class="name">Min</div>
+                                    <div class="desc">Casual conversations</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 d-flex justify-content-between px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-success" onclick="generateScenario()">Generate</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Material Modal -->
+    <div class="modal fade" id="createMaterialModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4">
+
+                <!-- Header -->
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Create Material</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4">
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Title <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" placeholder="Enter material title" required>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Category</label>
+                        <select class="form-select">
+                            <option value="">Select category</option>
+                            <option>Lecture</option>
+                            <option>Activity</option>
+                            <option>Assignment</option>
+                            <option>Reading</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" rows="3"
+                            placeholder="Add instructions or notes for students"></textarea>
+                    </div>
+
+                    <!-- Attachment -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Attachment</label>
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                <i class="bi bi-file-earmark-text"></i> Document
+                            </button>
+
+                            <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                <i class="bi bi-image"></i> Image
+                            </button>
+
+                            <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                <i class="bi bi-camera-video"></i> Video
+                            </button>
+
+                            <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                <i class="bi bi-link-45deg"></i> Link
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-outline-primary">
+                        Save Draft
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        Post
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Invite Teacher Modal -->
+    <div class="modal fade" id="inviteTeacherModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered invite-modal">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Invite teachers</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <label class="form-label fw-semibold">Email address</label>
+                    <input type="email" class="form-control" placeholder="teacher@email.com">
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Back</button>
+                    <button class="btn btn-primary">Invite</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Invite Student Modal -->
+    <div class="modal fade" id="inviteStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered invite-modal">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Invite students</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Copy Link -->
+                    <div class="d-flex align-items-center gap-2 mb-3 text-primary"
+                        role="button">
+                        <i class="bi bi-link-45deg fs-5"></i>
+                        <span class="fw-semibold">Copy link</span>
+                    </div>
+
+                    <!-- Email Input -->
+                    <label class="form-label fw-semibold">Email address</label>
+                    <input type="email" class="form-control" placeholder="student@email.com">
+
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Back</button>
+                    <button class="btn btn-primary">Invite</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE SCENARIO MODAL -->
+    <div class="modal fade" id="deleteScenarioModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Delete Scenario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-0">
+                Are you sure you want to delete this scenario?  
+                <strong>This action cannot be undone.</strong>
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Cancel
+                </button>
+                <button class="btn btn-danger" onclick="confirmDeleteScenario()">
+                Delete
+                </button>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

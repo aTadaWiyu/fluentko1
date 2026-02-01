@@ -1,0 +1,92 @@
+{% extends 'base_instructor.html' %}
+
+{% block title %}Profile - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Instructor Profile Page -->
+    <div class="profile-page">
+
+        <div class="profile-container">
+
+            <!-- Profile Header -->
+            <div class="profile-card profile-header">
+                <img src="/static/img/profile.jpg" alt="Profile" class="profile-avatar">
+
+                <div class="profile-info">
+                    <h3 class="mb-1">{{ session.get('user', 'Instructor') }}</h3>
+                    <span class="badge bg-primary mb-2">Instructor</span>
+                    <p class="text-muted mb-0">Teaching since 2022</p>
+                </div>
+
+                <button class="btn btn-outline-primary btn-sm edit-profile-btn">
+                    Edit Profile
+                </button>
+            </div>
+
+            <!-- Basic Information -->
+            <div class="profile-card">
+                <h5 class="fw-bold mb-3">Basic Information</h5>
+
+                <div class="info-grid">
+                    <div>
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" value="{{ session.get('user', '') }}">  
+                    </div>
+
+                    <div>
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="{{ session.get('email', '') }}" disabled>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Employee ID</label>
+                        <input type="text" class="form-control" value="INS-2022-001" disabled>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Department</label>
+                        <input type="text" class="form-control" value="Foreign Language Department" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classes Overview -->
+            <div class="profile-card">
+                <h5 class="fw-bold mb-3">Classes Teaching</h5>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>3</h4>
+                        <p>Active Classes</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>45</h4>
+                        <p>Total Students</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>75%</h4>
+                        <p>Average Progress</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>1 hr ago</h4>
+                        <p>Last Login</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div class="profile-card">
+                <h5 class="fw-bold mb-3">Account</h5>
+
+                <div class="d-flex flex-column gap-2">
+                    <button class="btn btn-outline-secondary">Change Password</button>
+                    <button class="btn btn-outline-secondary">Go to Settings</button>
+                    <button class="btn btn-outline-danger">Log Out</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

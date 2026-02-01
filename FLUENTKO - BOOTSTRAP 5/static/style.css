@@ -1,0 +1,1303 @@
+.notification-dropdown {
+    min-width: 250px;
+    min-height: 150px;
+}
+
+.dashboard-image {
+    max-height: 400px;
+}
+
+/* Mobile view */
+@media (max-width: 767px) {
+    .dashboard-image {
+        max-height: 300px;
+    }
+}
+/* Horizontal scrolling */
+.enrolled-scroll {
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.enrolled-card {
+    flex-shrink: 0;
+}
+
+.practice-main {
+    height: 100vh;
+}
+
+/* Card base */
+.class-card {
+    min-width: 230px;
+    max-width: 230px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+
+.class-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Join Class Card */
+.join-class-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #198754;
+    color: #198754;
+}
+
+.join-plus {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #e9f7ef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+/* Class Image */
+.class-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+/* CATEGORY CARDS */
+.category-card {
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: none;
+    padding: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.category-card h6 {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.category-card p {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* ACTIVE COURSE CARD */
+.active-course-card {
+    width: 100%;
+    max-width: 260px;
+    height: 350px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.active-course-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.active-course-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.active-course-card h6 {
+    font-weight: 700;
+}
+
+.active-course-card p {
+    font-size: 0.9rem;
+    color: #6c757d;
+    flex-grow: 1;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #fff;
+}
+
+/* ===== PRACTICE PAGE ===== */
+
+.practice-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.practice-tab-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #4caf50;
+    background: white;
+    font-weight: 600;
+}
+
+.practice-tab-btn.active {
+    background: #4caf50;
+    color: white;
+}
+
+.practice-title {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.practice-chat-card {
+    position: relative;
+    padding: 14px 40px 14px 14px;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.practice-chat-card:hover {
+    background: #f3f3f3;
+}
+
+.delete-chat-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #dc3545;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.delete-chat-icon:hover {
+    color: #a71d2a;
+}
+
+/* ===== CHAT HISTORY ===== */
+.practice-chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.practice-chat-btn {
+    display: flex;
+    align-items: start;
+    text-align: start;
+    gap: 12px;
+    padding: 12px 14px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.practice-chat-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    background-color: #f8f9fa;
+}
+
+/* ===== SCENARIOS ===== */
+.practice-class-card {
+    background: linear-gradient(135deg, #4caf50, #81c784);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    border: 2px solid #4caf50;
+    box-shadow: 0 6px 14px rgba(76, 175, 80, 0.15);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+}
+
+.practice-class-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(76, 175, 80, 0.25);
+    background: linear-gradient(135deg, #388e3c, #66bb6a);
+}
+
+.practice-class-card .instructor {
+    font-size: 0.85rem;
+    color: white;
+    font-weight: 500;
+}
+
+.practice-class-card .class-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.practice-class-card .class-subtitle {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 500;
+}
+
+/* scenario card style */
+.scenario-card {
+    cursor: pointer;
+    border: 2px solid #000000;  /* soft outline */
+    border-radius: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.scenario-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.scenario-card p {
+    max-height: 3em; /* roughly 2 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scenario-card-body {
+    position: relative;
+}
+
+.scenario-delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    border-radius: 50%;
+    padding: 6px 8px;
+}
+
+/* ===== NEW CHAT ===== */
+.practice-character-card {
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid #ddd;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.practice-character-card img {
+    width: 100%;
+    max-width: 180px;
+    border-radius: 14px;
+}
+
+.character-btn {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 12px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px;
+}
+
+.character-desc {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 6px;
+}
+
+/* =======================
+   CONVERSATION LAYOUT
+======================= */
+.conversation-wrapper {
+  flex: 1;
+  padding: 20px;
+  background: url('/static/img/chat-bg1.png') no-repeat center center;
+  background-size: cover;
+  min-height: calc(100vh - 70px);
+}
+
+.conversation-container {
+    height: 500px;
+}
+
+
+.vtuber-panel {
+    width: 100%;
+    height: 90vh;
+    flex: 0 0 40%;   /* 40% width */
+    position: relative;
+}
+
+#vtuber-container {
+  bottom: 0;
+  min-height: 500px;
+  width: 100%;
+  height: 90vh;
+
+  overflow: visible !important;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#live2dCanvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Background Cards */
+.bg-card {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 12px;  /* smoother rounded corners */
+    transition: border 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;           /* full width of col-6 */
+    height: 100px;         /* landscape fixed height */
+}
+.bg-card.selected {
+    border-color: #28a745;
+}
+
+.bg-card-img {
+    width: 100%;           /* full width of card */
+    height: 100%;          /* match card height */
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+}
+
+/* Uniform column layout for cards */
+.modal-body .row .col-6 {
+    display: flex;
+    justify-content: start;
+}
+
+/* Page Background */
+#conversationWrapper {
+    background-image: url("/static/img/chat-bg1.png");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+/* RIGHT — CHAT */
+.chat-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* fixed height */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(1px);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+
+/* Messages */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex; /* default visible */
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 10px;
+  padding-bottom: 20px; /* extra spacing if needed */
+}
+
+/* Chat bubbles */
+.chat-bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+}
+
+/* AI / VTuber — LEFT */
+.chat-bubble.ai {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #000;
+  align-self: flex-start;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* User — RIGHT */
+.chat-bubble.user {
+  background-color: #198754;
+  color: #fff;
+  align-self: flex-end;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  margin-left: auto; /* makes sure user bubble aligns right with spacing */
+  margin-right: 0;
+}
+
+/* Input Area */
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.chat-input {
+  flex: 1; /* takes remaining space */
+  border-radius: 30px;
+  padding: 12px 18px;
+}
+
+/* Mic Button */
+.mic-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background-color: #198754;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mic-btn i {
+  font-size: 1.2rem;
+}
+
+
+/* =======================
+   MOBILE
+======================= */
+@media (max-width: 768px) {
+
+  .conversation-wrapper {
+    min-height: 100vh;
+    padding-bottom: 90px; /* space for input */
+  }
+
+  .conversation-container {
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* VTuber stays on top */
+  .vtuber-panel {
+    width: 100%;
+    height: 90vh;
+    min-height: 300px; /* smaller minimum for mobile */
+    flex-shrink: 0;
+  }
+
+  /* Chat panel sticks to bottom */
+  .chat-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 80vh;
+    width: 100%;
+
+    border-radius: 20px 20px 0 0;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 999;
+
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+    .chat-panel::before {
+    content: "";
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 2px;
+    margin: 0 auto 8px;
+  }
+
+  /* Messages scroll INSIDE panel */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 80px; /* avoid input overlap */
+  }
+
+  /* Input always visible */
+  .chat-input-area {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 1000;
+  }
+  
+    #vtuber-container {
+        min-height: 500px;
+        width: 100%;
+        height: 100vh;
+        overflow: visible !important;
+        pointer-events: none;
+    }
+
+    #live2dCanvas {
+    width: 100%;
+    height: 100%;
+    }
+
+}
+
+.send-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background-color: #0d6efd;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-btn i {
+  font-size: 1.1rem;
+}
+
+/* ===== Mic Recording Button ===== */
+.record-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: none;
+  background-color: #dc3545; /* red */
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.record-btn:active {
+  transform: scale(1.15);
+}
+
+.record-btn.recording {
+  background-color: #212529; /* dark when recording */
+}
+
+
+
+/* =======================
+   LESSONS PAGE LAYOUT 
+   ====================== */
+   
+.lessons-section {
+    padding: 40px 0;
+}
+
+/* Lesson Group Title */
+.lesson-group-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+/* Tabs */
+.lessons-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-weight: 500;
+    color: #6c757d;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 200px;
+}
+
+.tab-btn:hover {
+    background-color: #f8f9fa;
+    color: #198754;
+}
+
+.tab-btn.active {
+    background-color: #198754;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Grid */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+/* Lesson Card */
+.lesson-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    background-color: #f8f9fa;
+}
+
+/* Icon */
+.lesson-icon {
+    font-size: 1.3rem;
+    color: #198754;
+    flex-shrink: 0;
+}
+
+/* Classes Grid */
+#classes-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Class Card */
+.class-card {
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    width: 100%;
+    max-width: 300px;
+}
+
+.class-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.class-card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.class-card-body {
+    padding: 16px;
+}
+
+/* Mobile styles for lessons */
+@media (max-width: 768px) {
+    .lessons-tabs {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .tab-btn {
+        width: 150px;
+        padding: 12px 16px;
+    }
+
+    .classes-grid {
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .class-card {
+        max-width: 100%;
+    }
+}
+/* =======================
+   EXERCISE PAGE LAYOUT */
+
+.exercise-page-wrapper {
+  padding: 24px 16px;
+}
+
+.exercise-container {
+  display: flex;
+  height: calc(100vh - 110px); /* navbar safe */
+  max-width: 1200px;
+  margin: 0 auto;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  overflow: hidden; /* clips inner panels to rounded corners */
+}
+
+/* LEFT PANEL */
+.exercise-sidebar {
+  width: 300px;
+  padding: 20px;
+  overflow-y: auto;
+
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f3fff6 40%,
+    #d4f5dd 100%
+  );
+
+  border-right: 1px solid #e5e7eb;
+}
+
+.exercise-content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .exercise-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .exercise-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+}
+
+.exercise-title {
+  font-weight: 600;
+}
+
+.unit-title {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+/* LEVEL LIST */
+.level-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.level-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.level-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #adb5bd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #495057;
+  background: white;
+}
+
+.level-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.level-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.level-subtitle {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+/* STATES */
+.level-item.completed .level-circle {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.level-item.locked {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* RIGHT PANEL */
+.exercise-content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* ===== Instructor layout only ===== */
+
+.instructor-layout {
+    height: calc(100vh - 56px); /* navbar height */
+    overflow: hidden;
+}
+
+/* Sidebar */
+.instructor-layout #sidebar {
+    width: 240px;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 240px;
+    min-height: 100vh;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 10px 12px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.sidebar-link:hover {
+    background-color: #f1f1f1;
+}
+
+.sidebar-link.active {
+    background-color: #198754;
+    color: white;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    #sidebar {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        transform: translateX(-100%);
+        z-index: 1050;
+    }
+
+    #sidebar.show {
+        transform: translateX(0);
+    }
+}
+
+/* Main content */
+.instructor-layout main {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+
+    .instructor-layout #sidebar {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        height: calc(100vh - 56px);
+        transform: translateX(-100%);
+        background: white;
+        z-index: 1050;
+        box-shadow: 4px 0 12px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+    }
+
+    .instructor-layout #sidebar.show {
+        transform: translateX(0);
+    }
+
+    .instructor-layout main {
+        width: 100%;
+    }
+}
+
+/* ===== Base Class Card (shared) ===== */
+.class-card-list {
+    background: linear-gradient(135deg, #4caf50, #81c784);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    border: 2px solid #4caf50;
+    box-shadow: 0 6px 14px rgba(76, 175, 80, 0.15);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+}
+
+.class-card-list:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(76, 175, 80, 0.25);
+    background: linear-gradient(135deg, #388e3c, #66bb6a);
+}
+
+.class-card-list .instructor {
+    font-size: 0.85rem;
+    color: white;
+    font-weight: 500;
+}
+
+.class-card-list .class-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.class-card-list .class-subtitle {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 500;
+}
+
+/* ===== Instructor-specific tweaks (optional, future-safe) ===== */
+.instructor-class-card {
+    position: relative;
+}
+
+/* Later you can add:
+.instructor-class-card::after { ... manage icon ... }
+*/
+
+/* ===== Bottom Navigation for Mobile ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background: white;
+    border-top: 1px solid #ddd;
+
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+}
+
+.bottom-nav a {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.bottom-nav a i {
+    display: block;
+    font-size: 1.2rem;
+}
+
+.bottom-nav a.active {
+    color: #4caf50;
+}
+
+/* Invite modals responsive width */
+.invite-modal {
+    max-width: 480px; /* mobile & tablet */
+}
+
+@media (min-width: 992px) {
+    .invite-modal {
+        max-width: 520px; /* desktop width */
+    }
+}
+
+/* =======================
+   PROFILE PAGE LAYOUT ====== */
+
+/* Page Wrapper */
+.profile-page {
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Main Container */
+.profile-container {
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Card Style */
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* Header Card */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info {
+    flex-grow: 1;
+}
+
+.edit-profile-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat-card {
+    background: #f1f8f4;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+}
+
+.stat-card h4 {
+    margin-bottom: 4px;
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+.stat-card p {
+    font-size: 0.85rem;
+    margin: 0;
+    color: #666;
+}
+
+/* Stats Card for Instructor (blue accent) */
+.stat-card h4 {
+    margin-bottom: 4px;
+    font-weight: 700;
+    color: #1565c0; /* instructor accent color */
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .edit-profile-btn {
+        position: static;
+        margin-top: 12px;
+    }
+}
+
+/* ===== Instructor Scenario Character Picker ===== */
+
+.instructor-character-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+}
+
+.instructor-character-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid #e0e0e0;
+    background: #ffffff;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.instructor-character-card img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.instructor-character-card .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.instructor-character-card .name {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.instructor-character-card .desc {
+    font-size: 0.7rem;
+    color: #6c757d;
+    line-height: 1.2;
+}
+
+/* Hover */
+.instructor-character-card:hover {
+    border-color: #198754;
+    background: #f4fbf6;
+}
+
+/* Selected */
+.instructor-character-card.selected {
+    border-color: #198754;
+    background: #e8f5e9;
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.15);
+}
+
+
+
+/* =======================
+   STUDENT CLASS PAGE LAYOUT ====== */
+
+/* Student class page wrapper */
+.student-class-wrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+/* Desktop only */
+@media (min-width: 992px) {
+    .student-class-wrapper {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.class-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.class-card-list {
+    width: 100%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.class-card-list.archived {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.class-card-list.archived {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}

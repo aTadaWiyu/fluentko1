@@ -1,0 +1,53 @@
+{% extends 'base_student.html' %}
+
+{% block title %}Exercises - Fluentko{% endblock %}
+
+{% block content %}
+
+    <div class="exercise-page-wrapper">
+        <div class="exercise-container">
+            <!-- LEFT PANEL -->
+            <aside class="exercise-sidebar">
+                <h5 class="exercise-title">Exercise</h5>
+                <p class="unit-title">Unit 1: Basics</p>
+
+                <div class="level-list">
+
+                <div class="level-item completed">
+                    <div class="level-circle">✓</div>
+                    <div class="level-text">
+                    <span class="level-name">LEVEL 1</span>
+                    <span class="level-subtitle">Greetings</span>
+                    </div>
+                </div>
+
+                <div class="level-item">
+                    <div class="level-circle">2</div>
+                    <div class="level-text">
+                    <span class="level-name">LEVEL 2</span>
+                    <span class="level-subtitle">Basic Phrases</span>
+                    </div>
+                </div>
+
+                <div class="level-item locked">
+                    <div class="level-circle">3</div>
+                    <div class="level-text">
+                    <span class="level-name">LEVEL 3</span>
+                    <span class="level-subtitle">Numbers</span>
+                    </div>
+                </div>
+
+                </div>
+            </aside>
+
+            <!-- RIGHT PANEL -->
+            <main class="exercise-content">
+                <h4>Level 2: Basic Phrases</h4>
+                <p>Select the correct answer:</p>
+
+                <!-- exercise content goes here -->
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

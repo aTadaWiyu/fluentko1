@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>FLUENTKO</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md bg-success navbar-dark py-3 sticky-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="/static/img/FLUENTKO_white.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="#features" class="nav-link mx-3">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link mx-3">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link mx-3">Contact</a>
+                    </li>
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-md m-1">Sign Up</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-light btn-md m-1">Login</a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Showcase -->
+     <section class="text-dark p-5 p-lg-0 pt-lg-5 text-center text-sm-start bg-image" style="background-image: url('/static/img/Gradient_Bg.png'); height: 87vh; background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <div>
+                    <h1 class="fw-bold">WHY CHOOSE FLUENTKO?</h1>
+                    <p class="lead my-4">
+                        Experience the future of Korean language learning
+                        designed specifically for nursing students with VTuber technology!
+                    </p>
+                    <a href="{{ url_for('login') }}" class="btn btn-success btn-lg">Start Learning!</a>
+                </div>
+                <img class="img-fluid w-100" src="/static/img/VTuber Student.png" alt="">
+            </div>
+        </div>
+     </section>
+
+     <!-- Cards -->
+      <section class="p-5">
+        <div class="container content-center">
+            <h2 class="mt-5 mb-5">Features</h2>
+            <div class="row text-center justify-content-center">
+                <div class="col-md mx-auto mb-2">
+                    <div class="card p-3" style="width: 16rem; height: 28rem">
+                        <img class="img-fluid w-5 mt-3" src="/static/img/VTuber Conversation.png" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">VTuber Conversation</h5>
+                            <p class="card-text mt-1">Practice real Korean conversations with a VTuber AI tutor who adapts to your nursing background and provides instant feedback.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md mx-auto mb-2">
+                    <div class="card p-3" style="width: 16rem; height: 28rem">
+                        <img class="img-fluid w-5 mt-3" src="/static/img/Medical Korean Module.png" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">Medical Korean Module</h5>
+                            <p class="card-text mt-1">Learn essential medical terminology and patient communication specifically design for nursing students.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md mx-auto mb-2">
+                    <div class="card p-3" style="width: 16rem; height: 28rem">
+                        <img class="img-fluid w-5 mt-3" src="/static/img/Korean Pronunciation.png" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">Korean Pronunciation</h5>
+                            <p class="card-text mt-1">Master Korean pronunciation with AI powered speech recognition and detailed feedback on consonants and vowels.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md mx-auto mb-2">
+                    <div class="card p-3" style="width: 16rem; height: 28rem">
+                        <img class="img-fluid w-5 mt-3" src="/static/img/NLP Technology.png" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">NLP Technology</h5>
+                            <p class="card-text mt-1">Natural Language Processing adapts to your learning pace and identifies areas for improvement in Korean grammar and vocabulary.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+      <!-- About -->
+
+        <!-- Contact & Map -->
+        <section class="p-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md">
+                    <h2 class="mb-4">Contact Info</h2>
+                    <ul class="list-group list-group-flush lead">
+                        <li class="list-group-item">
+                            <span class="fw-bold">Main Location:</span> Bicol University Polangui, Polangui Albay
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Researchers:</span> Akada Almonte, Leslie Ranido, Jamaila Recuenco
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Contact Number:</span> 0977-767-3936
+                        </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Email:</span> ryuakatzuki12@gmail.com
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </section>
+
+       <!-- Footer -->
+        <footer class="p-5 text-white text-center position-relative bg-image" style="background-image: url('/static/img/bg1.png'); height: 30vh; background-size: cover; background-position: center; background-repeat: no-repeat;">
+            <div class="container img-fluid">
+                <img src="/static/img/FLUENTKO_white.png">
+                <hr class="hr">
+                <p class="lead">&copy; 2025 FLUENTKO. All rights reserved.</p>
+
+                <a href="#" class="position-absolute bottom-0 end-0 p-5">
+                    <i class="bi bi-arrow-up-circle h1"></i>
+                </a>
+            </div>
+        </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

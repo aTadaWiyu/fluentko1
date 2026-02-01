@@ -1,0 +1,126 @@
+Set Up
+
+1.Create a virtual environment:
+python -m venv .venv
+source .venv/bin/activate   # Linux/Mac
+.venv\Scripts\activate      # Windows
+
+2. Install dependencies:
+pip install -r requirements.txt
+
+3. Create .env file:
+OPENAI_API_KEY=your_openai_api_key_here
+
+4. Run the application:
+flask --app app run
+
+Access the system at:
+http://127.0.0.1:5000
+
+
+---
+
+
+📂 Project Structure
+fluentko/
+├── app.py
+├── requirements.txt
+├── users.db
+├── .env
+├── templates/
+├── static/
+│   └── vtuber/
+│       ├── pixi/
+│       ├── cubism/
+│       └── js/
+
+
+---
+
+
+🔒 Notes
+
+The .env file is not included in the repository for security reasons.
+
+Microphone access must be allowed in the browser.
+
+This project is intended for academic and prototype use.
+
+
+---
+
+
+
+---
+
+# ✅ 3️⃣ SETUP CHECKLIST (Very useful for defense)
+
+You can keep this as `SETUP_CHECKLIST.md` or inside your thesis appendix.
+
+```md
+# Fluentko Setup Checklist
+
+## System Requirements
+- Python 3.x installed
+- Modern web browser (Chrome, Edge, Firefox)
+- Microphone-enabled device
+- Internet connection (for AI API)
+
+---
+
+## Initial Setup
+- [ ] Copy or clone project folder
+- [ ] Install Python
+- [ ] Create virtual environment
+- [ ] Activate virtual environment
+- [ ] Install dependencies from `requirements.txt`
+- [ ] Create `.env` file with OpenAI API key
+
+---
+
+## Database
+- [ ] Copy `users.db` (optional)
+- [ ] Verify database tables load correctly
+
+---
+
+## Frontend / VTuber
+- [ ] Ensure `static/vtuber/` folder exists
+- [ ] PIXI.js loaded locally
+- [ ] Live2D model files present
+- [ ] VTuber canvas renders correctly
+- [ ] Model does not scroll with page
+
+---
+
+## Audio & AI
+- [ ] Browser microphone permission enabled
+- [ ] Speech recognition works
+- [ ] AI responses generated successfully
+- [ ] VTuber reacts to responses
+
+---
+
+## Testing
+- [ ] User login works
+- [ ] Instructor dashboard loads
+- [ ] Student lessons accessible
+- [ ] Chat interaction functional
+- [ ] No console or Flask errors
+
+---
+
+## Deployment Notes
+- Development server only
+- Not configured for production deployment
+
+
+
+----
+
+
+
+.venv\Scripts\activate
+flask --app app run
+python init_db.py
+python -m init_db

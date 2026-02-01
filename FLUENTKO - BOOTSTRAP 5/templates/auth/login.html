@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>FLUENTKO - Login</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+        
+            <!-- Left Section -->
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="login-left w-75">
+                    <a href="{{ url_for('index') }}" class="mb-5">
+                    <img src="/static/img/FLUENTKO_black.png" class="img-fluid w-25 py-3">
+                    </a>
+                    <h2 class="text-center my-4 fw-bold">Login</h2>
+
+                    <form method="POST" action="{{ url_for('login') }}">
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input type="email" name="email" class="form-control" placeholder="Enter email address" required>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                            </div>
+                        </div>
+
+                        <!-- Remember Me -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+
+                        <!-- Login Button -->
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="d-flex align-items-center m-3">
+                        <div class="flex-grow-1 border-top border-secondary opacity-50"></div>
+                        <div class="mx-3 text-secondary text-center">or continue with</div>
+                        <div class="flex-grow-1 border-top border-secondary opacity-50"></div>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="text-center social-icons mb-4">
+                        <i class="bi bi-google fs-1 mx-1"></i>
+                        <i class="bi bi-apple fs-1 mx-1"></i>
+                        <i class="bi bi-facebook fs-1 mx-1"></i>
+                    </div>
+
+                    <!-- Sign Up -->
+                    <div class="text-center mb-5">
+                        Don't have an account?
+                        <a href="/register" class="text-primary fw-bold text-decoration-none">
+                            Sign Up
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Right Section -->
+            <div class="col-lg-6 vh-100 d-flex align-items-center justify-content-center" style="background-color: #C1E7AE;">
+            <img src="/static/img/In_Login.png" class="mt-5 img-fluid w-80 w-md-100">
+            </div>
+            
+        </div> <!-- end row -->
+
+        <!-- Footer -->
+        <footer class="p-5 text-white text-center position-relative bg-image" style="background-image: url('/static/img/bg1.png'); height: 30vh; background-size: cover; background-position: center; background-repeat: no-repeat;">
+            <div class="container img-fluid">
+                <img src="/static/img/FLUENTKO_white.png">
+                <hr class="hr">
+                <p class="lead">&copy; 2025 FLUENTKO. All rights reserved.</p>
+
+                <a href="#" class="position-absolute bottom-0 end-0 p-5">
+                    <i class="bi bi-arrow-up-circle h1"></i>
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container mt-3">
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+
+    <script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(alert => alert.remove());
+    }, 4000); // 4 seconds
+    </script>
+
+</body>

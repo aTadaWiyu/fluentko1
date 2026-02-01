@@ -1,0 +1,299 @@
+{% extends 'base_student.html' %}
+
+{% block title %}Practice - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Practice Section -->
+    <section class="practice-section">
+        <div class="container" style="max-width: 720px;">
+
+            <!-- NEW CHAT BUTTON -->
+            <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-success px-4"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createChatModal">
+                    <i class="bi bi-chat-dots me-2"></i> New Chat
+                </button>
+            </div>
+
+            <!-- SEARCH BAR -->
+            <div class="input-group mb-4">
+                <span class="input-group-text bg-white">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text"
+                    class="form-control"
+                    placeholder="Search your chats..."
+                    oninput="filterChats(this.value)">
+            </div>
+
+            <!-- YOUR CHATS LABEL -->
+            <div class="text-muted fw-semibold mb-2" style="font-size: 0.9rem;">
+                Your Chats
+            </div>
+
+            <!-- CHAT LIST -->
+            <div class="practice-chat-list" id="chatList">
+                {% if chats %}
+                    {% for chat in chats %}
+                            <div class="practice-chat-card"
+                                data-title="{{ chat.title }}"
+                                id="chat-{{ chat.id }}"
+                                onclick="location.href='/student/chat/history/{{ chat.id }}'">
+
+                                {{ chat.title }}
+
+                                <!-- delete icon INSIDE card -->
+                                <i class="bi bi-trash delete-chat-icon mx-2"onclick="openDeleteModal(event, {{ chat.id }})"></i>
+                            </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-muted small">You haven't created any chats yet.</div>
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CREATE NEW CHAT MODAL -->
+    <div class="modal fade" id="createChatModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4">
+
+                <!-- Header -->
+                <div class="modal-header border-0 d-flex align-items-center">
+                    <h5 class="modal-title fw-bold mb-0">Create New Conversation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4">
+                    <form id="newChatForm">
+                        <!-- Chat Title -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Title <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                class="form-control"
+                                id="chatTitle"
+                                placeholder="e.g. Ordering coffee in Korean"
+                                required>
+                        </div>
+
+                        <!-- Conversation Prompt -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Conversation Prompt <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control"
+                                    id="chatPrompt"
+                                    rows="3"
+                                    placeholder="What would you like to talk about?  
+Example: I want to practice ordering drinks politely and responding to questions."
+                                    required></textarea>
+                            <small class="text-muted">
+                                This will guide the AI conversation.
+                            </small>
+                        </div>
+
+                        <!-- Difficulty Level -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Difficulty Level <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="chatDifficulty" required>
+                                <option value="">Select difficulty</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+
+                        <!-- Character Selection -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Character <span class="text-danger">*</span>
+                            </label>
+
+                            <div class="instructor-character-selection">
+
+                                <div class="instructor-character-card"
+                                    onclick="selectChatCharacter(this, 'poly')">
+                                    <img src="/static/img/Poly.jpg">
+                                    <div class="info">
+                                        <div class="name">Poly</div>
+                                        <div class="desc">Warm big-sister guide</div>
+                                    </div>
+                                </div>
+
+                                <div class="instructor-character-card"
+                                    onclick="selectChatCharacter(this, 'nabi')">
+                                    <img src="/static/img/Nabi.jpg">
+                                    <div class="info">
+                                        <div class="name">Nabi</div>
+                                        <div class="desc">Simple & gentle practice</div>
+                                    </div>
+                                </div>
+
+                                <div class="instructor-character-card"
+                                    onclick="selectChatCharacter(this, 'min')">
+                                    <img src="/static/img/VTuber3.jpg">
+                                    <div class="info">
+                                        <div class="name">Min</div>
+                                        <div class="desc">Casual conversations</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="modal-footer border-0 px-4 pb-4 d-flex justify-content-between">
+                            <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE CONFIRM MODAL -->
+    <div class="modal fade" id="deleteChatModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Delete Conversation</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body text-muted">
+                    This chat will be permanently deleted. This action cannot be undone.
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+    let selectedChatCharacter = null;
+
+    function selectChatCharacter(card, character) {
+        document.querySelectorAll('.instructor-character-card')
+            .forEach(c => c.classList.remove('selected'));
+
+        card.classList.add('selected');
+        selectedChatCharacter = character;
+    }
+
+    document.getElementById('newChatForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const title = document.getElementById('chatTitle').value.trim();
+        const prompt = document.getElementById('chatPrompt').value.trim();
+        const difficulty = document.getElementById('chatDifficulty').value;
+
+        if (!title || !prompt || !difficulty || !selectedChatCharacter) {
+            alert('Please fill in all required fields and select a character.');
+            return;
+        }
+
+        try {
+            const res = await fetch('/student/chat/new', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    title: title,
+                    prompt: prompt,
+                    difficulty: difficulty,
+                    character: selectedChatCharacter
+                })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('createChatModal'));
+                modal.hide();
+
+                // Refresh the chat list dynamically
+                const chatList = document.getElementById('chatList');
+                const newBtn = document.createElement('button');
+                newBtn.classList.add('practice-chat-btn');
+                newBtn.dataset.title = title;
+                newBtn.textContent = title;
+                newBtn.onclick = () => window.location.href = `/student/chat/new/${data.chat_id}`;
+                chatList.prepend(newBtn); // add at top
+
+                // Redirect to the new chat page
+                window.location.href = `/student/chat/new/${data.chat_id}`;
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Failed to create chat.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Error creating chat.');
+        }
+    });
+
+    function filterChats(query) {
+        const q = query.toLowerCase();
+        const chats = document.querySelectorAll('#chatList .practice-chat-card');
+
+        chats.forEach(chat => {
+            const title = chat.dataset.title.toLowerCase();
+            chat.style.display = title.includes(q) ? 'flex' : 'none';
+        });
+    }
+
+    </script>
+
+    <script>
+    let chatToDelete = null;
+
+    function openDeleteModal(event, chatId) {
+        event.stopPropagation(); // prevent opening chat
+        chatToDelete = chatId;
+
+        const modal = new bootstrap.Modal(document.getElementById('deleteChatModal'));
+        modal.show();
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+        if (!chatToDelete) return;
+
+        try {
+            const res = await fetch(`/student/chat/${chatToDelete}/delete`, {
+                method: 'POST'
+            });
+
+            if (res.ok) {
+                document.getElementById(`chat-${chatToDelete}`).remove();
+
+                const modal = bootstrap.Modal.getInstance(document.getElementById('deleteChatModal'));
+                modal.hide();
+
+                chatToDelete = null;
+            } else {
+                alert("Failed to delete chat.");
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Error deleting chat.");
+        }
+    });
+    </script>
+
+{% endblock %}

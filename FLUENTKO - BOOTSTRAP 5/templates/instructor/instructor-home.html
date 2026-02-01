@@ -1,0 +1,226 @@
+{% extends 'base_instructor.html' %}
+
+{% block title %}Home - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Dashboard Greeting -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center">
+
+                        <!-- Text -->
+                        <div class="col-md-8">
+                            <h2 class="fw-bold mb-2">
+                                Welcome back, {{ session.get('user', 'Student') }} 👋
+                            </h2>
+
+                            <p class="text-muted mb-4">
+                                Ready to continue your journey in teaching Korean?
+                                Let's keep inspiring and improving your students' skills, one lesson at a time!
+                            </p>
+
+                            <button class="btn btn-success px-4 py-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#createClassModal">
+                                Create Class
+                            </button>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="col-md-4 text-center mt-4 mt-md-0">
+                            <img src="/static/img/dashboard.png" class="img-fluid dashboard-image">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teaching Section -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h3>Teaching</h3>
+                    <p class="text-muted">Your classes will appear here once you created one.</p>
+                    <div class="d-flex pb-3" style="max-width: 100%; overflow-x: auto; overflow-y: hidden;">
+                        <!-- Create Class Card -->
+                        <div class="card me-3 shadow-sm border-1 rounded-4" style="width: 250px; height: 350px; cursor: pointer; flex-shrink: 0;" data-bs-toggle="modal" data-bs-target="#createClassModal">
+                            <div class="card-body text-center py-5">
+                                <i class="bi bi-plus-circle" style="font-size: 4rem; color: #6c757d;"></i>
+                                <h5 class="mt-3">Create Class</h5>
+                            </div>
+                        </div>
+                        <!-- Created Class Cards would be dynamically added here -->
+                        {% for cls in classes %}
+                            <a href="{{ url_for('instructor_class', class_code=cls.code) }}"
+                            class="text-decoration-none text-dark">
+
+                                <div class="card me-3 shadow-sm border-0 rounded-4"
+                                    style="width: 250px; height: 350px; flex-shrink: 0;">
+                                    
+                                    <img src="{{ cls.image }}"
+                                        class="card-img-top"
+                                        alt="Class Image"
+                                        style="height: 200px; object-fit: cover;">
+
+                                    <div class="card-body">
+                                        <p class="text-muted mb-1">{{ cls.instructor }}</p>
+                                        <h6 class="fw-bold fs-5 mb-1">{{ cls.name }}</h6>
+                                        <p class="mb-0">{{ cls.subject }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Section -->
+    <section class="py-2">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h3>Category</h3>
+                    <p class="text-muted">Explore Korean by category or follow a guided learning path.</p>
+
+                </div>
+
+                <!-- Category Grid -->
+                <div class="row g-4 justify-content-center mx-5 mb-4">
+
+                    <!-- Card 1 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Basics & Foundations</h6>
+                            <p>Learn Hangul, pronunciation rules, essential words, and beginner phrases.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Grammar & Sentence Patterns</h6>
+                            <p>Master particles, conjugations, honorifics, and common sentence structures.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Daily Conversations</h6>
+                            <p>Practice real-life dialogues for greetings, shopping, dining, and social interactions.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Nursing & Healthcare Korean</h6>
+                            <p>Learn medical terms, patient communication, and clinical conversation phrases.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Listening & Speaking Practice</h6>
+                            <p>Improve pronunciation through speech recognition, TTS audio, and guided repetition.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Vocabulary Builder</h6>
+                            <p>Expand your word bank through themed sets: people, places, emotions, objects, and more.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 7 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Culture & Etiquette</h6>
+                            <p>Understand Korean customs, cultural behavior, and polite communication styles.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 8 -->
+                    <div class="col-6 col-md-3 d-flex justify-content-center">
+                        <div class="category-card">
+                            <h6>Quizzes & Progress Tasks</h6>
+                            <p>Test your skills with interactive quizzes, activities, and performance review.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Class Modal -->
+    <div class="modal fade" id="createClassModal" tabindex="-1" aria-hidden="true">
+        <form method="POST" action="{{ url_for('create_class') }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4">
+
+                    <!-- Header -->
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-bold">Create Class</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body px-4">
+
+                        <!-- Class Name Input (Required) -->
+                        <div class="mb-3">
+                            <label for="className" class="form-label fw-semibold">Class Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" id="className" placeholder="Enter class name" required>
+                        </div>
+
+                        <!-- Section Input -->
+                        <div class="mb-3">
+                            <label for="section" class="form-label fw-semibold">Section</label>
+                            <input type="text" class="form-control" name="section" id="section" placeholder="Enter section">
+                        </div>
+
+                        <!-- Room Input -->
+                        <div class="mb-3">
+                            <label for="room" class="form-label fw-semibold">Room</label>
+                            <input type="text" class="form-control" name="room" id="room" placeholder="Enter room">
+                        </div>
+
+                        <!-- Subject Input -->
+                        <div class="mb-3">
+                            <label for="subject" class="form-label fw-semibold">Subject</label>
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Enter subject">
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 d-flex justify-content-between px-4 pb-4">
+                        <button type="button"
+                                class="btn btn-outline-secondary col-3 rounded-pill"
+                                data-bs-dismiss="modal">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </button>
+
+                        <button type="submit" class="btn btn-success col-3 rounded-pill">
+                            Create
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

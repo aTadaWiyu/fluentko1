@@ -1,0 +1,97 @@
+{% extends 'base_student.html' %}
+
+{% block title %}Lessons - Fluentko{% endblock %}
+
+{% block content %}
+
+<section class="lessons-section">
+    <div class="container">
+
+        <!-- Tabs -->
+        <div class="lessons-tabs">
+            <button class="tab-btn active" onclick="switchTab('courses')">Courses</button>
+            <button class="tab-btn" onclick="switchTab('myclasses')">My Classes</button>
+            <button class="tab-btn" onclick="switchTab('archived')">Archived</button>
+        </div>
+
+        <!-- Courses Content -->
+        <div id="courses-content">
+            {% for course in courses %}
+                {% if course["lessons"]|length > 0 %}
+                <h3 class="lesson-group-title">{{ course["title"] }}</h3>
+
+                <div class="lessons-grid">
+                    {% for lesson in course["lessons"] %}
+                    <div class="lesson-card">
+                        <i class="bi bi-clipboard-data lesson-icon"></i>
+                        <span class="lesson-title">
+                            Lesson {{ loop.index }}: {{ lesson }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- My Classes Content -->
+        <div id="myclasses-content" style="display:none;">
+            <div class="class-wrapper">
+
+                {% if classes|length == 0 %}
+                    <p class="text-muted">You haven’t joined any classes yet.</p>
+                {% endif %}
+
+                {% for cls in classes %}
+                <div class="class-card-list"
+                     onclick="location.href='{{ url_for('student_class', class_code=cls['code']) }}'">
+                    <div class="instructor">{{ cls['instructor'] }}</div>
+                    <div class="class-title">{{ cls['name'] }}</div>
+                    <div class="class-subtitle">{{ cls['subject'] }}</div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- Archived Classes Content -->
+        <div id="archived-content" style="display:none;">
+            <div class="class-wrapper">
+
+                {% if archived_classes|length == 0 %}
+                    <p class="text-muted">No archived classes.</p>
+                {% endif %}
+
+                {% for cls in archived_classes %}
+                <div class="class-card-list archived">
+                    <div class="instructor">{{ cls['instructor'] }}</div>
+                    <div class="class-title">{{ cls['name'] }}</div>
+                    <div class="class-subtitle">{{ cls['subject'] }}</div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+function switchTab(tab) {
+    const tabs = document.querySelectorAll('.tab-btn');
+    const sections = {
+        courses: document.getElementById('courses-content'),
+        myclasses: document.getElementById('myclasses-content'),
+        archived: document.getElementById('archived-content')
+    };
+
+    tabs.forEach(btn => btn.classList.remove('active'));
+    Object.values(sections).forEach(sec => sec.style.display = 'none');
+
+    document.querySelector(`button[onclick="switchTab('${tab}')"]`)
+        .classList.add('active');
+    sections[tab].style.display = 'block';
+}
+</script>
+
+{% endblock %}

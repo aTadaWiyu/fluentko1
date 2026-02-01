@@ -1,0 +1,95 @@
+{% extends 'base_student.html' %}
+
+{% block title %}Profile - Fluentko{% endblock %}
+
+{% block content %}
+
+    <!-- Student Profile Page -->
+    <div class="profile-page">
+
+        <div class="profile-container">
+
+            <!-- Profile Header -->
+            <div class="profile-card profile-header">
+                <img src="/static/img/profile.jpg" alt="Profile" class="profile-avatar">
+
+                <div class="profile-info">
+                    <h3 class="mb-1">{{ student.name }}</h3>
+                    <span class="badge bg-success mb-2">Student</span>
+                    <p class="text-muted mb-0">Enrolled since 2024</p>
+                </div>
+
+                <button class="btn btn-outline-success btn-sm edit-profile-btn">
+                    Edit Profile
+                </button>
+            </div>
+
+            <!-- Basic Information -->
+            <div class="profile-card">
+                <h5 class="fw-bold mb-3">Basic Information</h5>
+
+                <div class="info-grid">
+                    <div>
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" value="{{ student.name }}">
+                    </div>
+
+                    <div>
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="{{ student.email }}" disabled>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Student ID</label>
+                        <input type="text" class="form-control" value="{{ student.student_id }}" disabled>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Language Preference</label>
+                        <select class="form-select">
+                            <option>Korean</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Overview -->
+            <div class="profile-card">
+                <h5 class="fw-bold mb-3">Learning Overview</h5>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>{{ student.courses }}</h4>
+                        <p>Courses Enrolled</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>{{ student.completed }}</h4>
+                        <p>Exercises Completed</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>{{ student.progress }}%</h4>
+                        <p>Overall Progress</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>{{ student.last_active }}</h4>
+                        <p>Last Active</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div class="profile-card">
+                <h5 class="fw-bold mb-3">Account</h5>
+
+                <div class="d-flex flex-column gap-2">
+                    <button class="btn btn-outline-secondary">Change Password</button>
+                    <button class="btn btn-outline-secondary">Go to Settings</button>
+                    <button class="btn btn-outline-danger">Log Out</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

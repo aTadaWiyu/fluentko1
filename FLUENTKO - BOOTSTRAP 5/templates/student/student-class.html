@@ -1,0 +1,142 @@
+{% extends 'base_student.html' %}
+
+{% block title %}{{ course.name }} - Fluentko{% endblock %}
+
+{% block content %}
+
+<div class="student-class-wrapper">
+
+    <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+    
+        <!-- Back -->
+        <button class="btn btn-outline-success fw-semibold shadow-sm ms-2"
+                onclick="history.back()">
+            <i class="bi bi-arrow-left"></i> Back
+        </button>
+
+
+    </div>
+
+
+    <!-- Class Header -->
+    <div class="class-card-list class-card-static mx-2 mt-2">
+        <div class="instructor">{{ course.instructor.name }}</div>
+        <div class="class-title">{{ course.name }}</div>
+        <div class="class-subtitle">{{ course.subject }}</div>
+    </div>
+
+
+    <!-- CLASSWORK -->
+    <div id="classwork-content" class="tab-content">
+        {% for lesson in course.lessons %}
+        <div class="lesson-card my-2 mx-2">
+            <div class="fw-semibold">
+                <i class="bi bi-book me-2"></i>{{ lesson.title }}
+            </div>
+            <div class="text-muted small">
+                Posted • {{ lesson.created_at.strftime('%b %d, %Y') }}
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted mx-2">No lessons yet.</p>
+        {% endfor %}
+    </div>
+
+    <!-- SCENARIOS -->
+    <div id="scenarios-content" class="tab-content" style="display:none;">
+        <div class="mx-2 mt-3">
+            {% for scenario in course.scenarios %}
+            <div class="scenario-card card border-0 shadow-sm mb-3">
+                <div class="card-body">
+                    <i class="bi bi-magic text-primary me-2 fs-5"></i>
+                    <h6>{{ scenario.title }}</h6>
+                    <p class="text-muted small">{{ scenario.description }}</p>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-muted">No scenarios available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- PEOPLE -->
+    <div id="people-content" class="tab-content" style="display: none;">
+        <div class="mx-3 mt-3">
+
+            <h5 class="fw-bold mb-3">Class Members</h5>
+
+            <!-- Teachers -->
+            <h6 class="text-muted mb-2">Teachers</h6>
+
+            <div class="d-flex align-items-center mb-3">
+                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                    style="width: 40px; height: 40px; font-size: 14px; font-weight: bold;">
+                    {{ instructor.name[:2]|upper }}
+                </div>
+                <div class="fw-semibold">{{ instructor.name }}</div>
+            </div>
+
+            <!-- Students -->
+            <h6 class="text-muted mb-2 mt-4">
+                Students ({{ students|length }})
+            </h6>
+
+            {% for student in students %}
+            <div class="d-flex align-items-center mb-3">
+
+                <!-- Avatar (initials) -->
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                    style="width: 40px; height: 40px; font-size: 14px; font-weight: bold;">
+                    {{ student.name[:2]|upper }}
+                </div>
+
+                <!-- Info -->
+                <div>
+                    <div class="fw-semibold">
+                        {{ student.name }}
+                        {% if student.id == session['user_id'] %}
+                            <span class="badge bg-secondary ms-2">You</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a class="active" onclick="switchTab('classwork')">
+            <i class="bi bi-chat-left-text"></i>
+            <span>Classwork</span>
+        </a>
+        <a onclick="switchTab('scenarios')">
+            <i class="bi bi-journal-text"></i>
+            <span>Scenarios</span>
+        </a>
+        <a onclick="switchTab('people')">
+            <i class="bi bi-people"></i>
+            <span>People</span>
+        </a>
+    </nav>
+
+    <script>
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-content')
+            .forEach(c => c.style.display = 'none');
+
+        document.querySelectorAll('.bottom-nav a')
+            .forEach(a => a.classList.remove('active'));
+
+        document.getElementById(tab + '-content').style.display = 'block';
+        document.querySelector(`.bottom-nav a[onclick="switchTab('${tab}')"]`)
+            .classList.add('active');
+    }
+
+    switchTab('classwork');
+    </script>
+
+{% endblock %}
